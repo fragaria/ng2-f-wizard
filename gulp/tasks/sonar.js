@@ -4,8 +4,8 @@ var gulp = require('gulp'),
     path = require('path'),
     SonarWebReporters = require("sonar-web-frontend-reporters"),
     SonarWebDuplication = require("sonar-web-frontend-duplication"),
-    projectName = 'SEED-APP-frontend',  // TODO fill app name
-    projectKey = 'SEED-APP-frontend';  // TODO fill app name
+    projectName = 'ng2-f-wizard-frontend',
+    projectKey = 'ng2-f-wizard-frontend';
 
 /**
  * Linting

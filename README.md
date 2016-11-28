@@ -1,4 +1,4 @@
-## SEED APP - frontend
+## KBONLINE-WIZARD - frontend
 
 ### Příprava projektu
 - Udělejte si `git clone` této repozitory a přesuňte se do adresáře projektu

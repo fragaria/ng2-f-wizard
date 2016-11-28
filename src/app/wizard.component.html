@@ -1,0 +1,47 @@
+<div class="container-fluid">
+
+  <div class="row">
+  </div>
+
+  <div class="row">
+    <ul class="col-sm-3 app-step-list">
+      <li *ngFor="let step of steps; let i = index"
+           class="app-step-list-item"
+          [class.app-active]="isActive(i)"
+          [class.app-clickable]="isClickable(i)"
+          (click)="isClickable(i) && setStep(i)">
+        <span class="app-circle">{{i + 1}}</span> &nbsp; {{step.name}}
+      </li>
+    </ul>
+
+    <div class="col-sm-9">
+      <!-- content -->
+      <ng-content></ng-content>
+
+      <!-- footer -->
+      <div class="row app-wizard__footer">
+        <button [style.visibility]="isFirstStep ? 'hidden' : 'visible'"
+                type="button"
+                class="btn btn-secondary"
+                (click)="previousStep()">
+          Previous
+        </button>
+        {{index + 1}} / {{steps.length}}
+        <button *ngIf="!isFinalStep"
+                type="button"
+                class="btn btn-secondary"
+                (click)="nextStep()">
+          Next
+        </button>
+        <button *ngIf="isFinalStep"
+                type="button"
+                class="btn btn-secondary"
+                (click)="finishWizard()">
+          Finish
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,26 +1,16 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule }  from '@angular/http';
-
-import { MockApiModule } from 'ng2-f-mock-api';
 
 import { AppComponent } from './app.component';
-import { routing }      from './app.routing';
-import { ItemModule }   from './item';
-import { ClientModule } from './clients';
-import { SharedModule } from './shared';
+
+import { WizardComponent } from './wizard.component';
+import { WizardStepComponent } from './wizard-step.component';
 
 @NgModule({
   imports: [
-    BrowserModule,
-    routing,
-    SharedModule,
-    ItemModule,
-    ClientModule,
-    HttpModule,
-    MockApiModule
+    BrowserModule
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, WizardComponent, WizardStepComponent],
   exports: [AppComponent],
   bootstrap: [AppComponent]
 })

@@ -1,24 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
-import './rxjs-operators';
+import { WizardComponent } from './wizard.component';
+import { WizardStepComponent } from './wizard-step.component';
 
 @Component({
   selector: 'seed-app',
-  template: `
-    <div class="container">
-      <nav class="navbar navbar-dark bg-primary">
-        <a routerLink="" routerLinkActive="active" class="navbar-brand">HP</a>
-        <ul class="nav navbar-nav">
-          <li class="nav-item">
-            <a routerLink="items" routerLinkActive="active" class="nav-link">Items</a>
-          </li>
-          <li class="nav-item">
-            <a routerLink="clients" routerLinkActive="active" class="nav-link">Clients</a>
-          </li>
-        </ul>
-      </nav>
-      <router-outlet></router-outlet>
-    </div>
-  `
+  templateUrl: './app.component.html',
 })
-export class AppComponent { }
+export class AppComponent {
+  private initStep = 4;
+
+  constructor() {
+  }
+
+  onFinish() {
+    window.postMessage('kbonline:closeme', '*')
+    console.log('Finished!');
+  }
+
+}

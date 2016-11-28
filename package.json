@@ -1,11 +1,11 @@
 {
-  "name": "ng2-f-template-spa",
+  "name": "ng2-f-wizard",
   "version": "0.0.1",
-  "description": "Seed template for SPA",
+  "description": "A wizard component for FAST forms.",
   "license": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fragaria/ng2-f-template-spa.git"
+    "url": "https://github.com/fragaria/ng2-f-wizard.git"
   },
   "scripts": {
     "gulp": "gulp",

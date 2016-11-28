@@ -1,6 +1,6 @@
 'use strict';
 
-var COMMIT_PREFIX = 'SEED APP';  // TODO fill app short name
+var COMMIT_PREFIX = 'ng2-f-wizard';
 
 var gulp = require('gulp'),
     git = require('gulp-git'),

@@ -1,2 +1,48 @@
 @import "node_modules/font-awesome/scss/font-awesome.scss";
 
+$kbonline-green: #4EB04E;
+
+.app-step-list {
+  list-style: none;
+
+  .app-circle {
+    width: 1.5em;
+    height: 1.5em;
+    text-align: center;
+    border-radius: 50%;
+    display: inline-block;
+    background: gray;
+    color: black;
+  }
+
+  .app-active,
+  .app-clickable
+  {
+    .app-circle {
+      background: $kbonline-green;
+    }
+  }
+
+  .app-step-list-item {
+    margin: 5px;
+    padding: 10px;
+    color: gray;
+    cursor: default;
+  }
+  .app-step-list-item.app-active {
+    color: black;
+    background: #eee;
+    cursor: default;
+  }
+  .app-step-list-item.app-clickable {
+    color: black;
+    cursor: pointer;
+  }
+}
+
+.app-wizard__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}

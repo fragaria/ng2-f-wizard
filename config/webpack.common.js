@@ -16,7 +16,7 @@ const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin
  */
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = {
-  title: 'SEED APP', // TODO fill app name
+  title: 'ng2-f-wizard',
   baseUrl: '/',
   host: 'localhost',
   port: 8080,

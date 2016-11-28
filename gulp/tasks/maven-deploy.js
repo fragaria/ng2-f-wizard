@@ -9,10 +9,10 @@ var git = require('gulp-git'),
     maven = require('gulp-maven-deploy');
 
 var configRelease = {
-  "groupId": "cz.kb.fast.seed",  // TODO fill app package
-  "artifactId": "seed-app-frontend",  // TODO fill app name
+  "groupId": "cz.kb.fast.seed", // TODO wut is dat?
+  "artifactId": "ng2-f-wizard-frontend",
   "buildDir": "dist",
-  "finalName": "seed-app-frontend-{version}",  // TODO fill app name
+  "finalName": "ng2-f-wizard-frontend-{version}",
   "type": "zip",
   "fileEncoding": "utf-8",
   "repositories": [
@@ -24,10 +24,10 @@ var configRelease = {
 };
 
 var configSnapshot = {
-  "groupId": "cz.kb.fast.seed",  // TODO fill app package
-  "artifactId": "seed-app-frontend",  // TODO fill app name
+  "groupId": "cz.kb.fast.seed",  // TODO wut is dat?
+  "artifactId": "ng2-f-wizard-frontend",
   "buildDir": "dist",
-  "finalName": "seed-app-frontend-{version}-SNAPSHOT",  // TODO fill app name
+  "finalName": "ng2-f-wizard-frontend-{version}-SNAPSHOT",
   "type": "zip",
   "version": "{version}-SNAPSHOT",
   "fileEncoding": "utf-8",

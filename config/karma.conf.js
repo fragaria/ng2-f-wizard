@@ -77,7 +77,7 @@ module.exports = function (config) {
     junitReporter: {
       outputDir: './reports/junit',
       outputFile: 'test-results.xml',
-      suite: 'seed-app',  // TODO fill app name
+      suite: 'ng2-f-wizard',
       useBrowserName: false
     },
 
