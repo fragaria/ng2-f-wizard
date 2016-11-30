@@ -1,0 +1,77 @@
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+
+$kbonline-green: #4EB04E;
+
+#kbonline {
+  padding-top: 5rem;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.fa-kbonline-green {
+  color: $kbonline-green;
+}
+
+.btn.close {
+  -webkit-appearance: none;
+  padding: 8px 0;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  color: black;
+}
+
+.navbar {
+  background: $kbonline-green;
+  color: #eee;
+}
+
+.fast-step-list {
+  list-style: none;
+
+  .fast-circle {
+    font-weight: bold;
+    width: 1.5em;
+    height: 1.5em;
+    text-align: center;
+    border-radius: 50%;
+    display: inline-block;
+    background: #ccc;
+    color: #666;
+  }
+
+  .fast-active,
+  .fast-clickable
+  {
+    font-weight: bold;
+
+    .fast-circle {
+      background: #666;
+      color: white;
+    }
+  }
+
+  .fast-step-list-item {
+    margin: 5px;
+    padding: 10px;
+    color: #666;
+    cursor: default;
+  }
+  .fast-step-list-item.fast-clickable:hover {
+    background: #f0f0f0;
+  }
+  .fast-step-list-item.fast-clickable {
+    cursor: pointer;
+  }
+
+}
+
+.fast-wizard__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}

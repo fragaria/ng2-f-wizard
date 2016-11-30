@@ -1,0 +1,64 @@
+<div id="kbonline">
+  <div class="pos-f-t">
+    <div class="navbar navbar-static-top navbar-light bg-faded">
+      <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> KB Online</span>
+      <button type="button" class="btn close float-xs-right" (click)="onClose()"> <i class="fa fa-close"></i> </button>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <!-- left sidebar -->
+      <div class="col-sm-3 ">
+
+        <!-- step list -->
+        <ul class="fast-step-list">
+          <li *ngFor="let step of steps; let i = index"
+               class="fast-step-list-item"
+              [class.fast-active]="isActive(i)"
+              [class.fast-clickable]="isClickable(i)"
+              (click)="isClickable(i) && setStep(i)">
+            <span class="fast-circle">{{i + 1}}</span> &nbsp; {{step.name}}
+            <i *ngIf="isClickable(i)" class="fa fa-check fa-lg fa-kbonline-green"></i>
+          </li>
+        </ul>
+
+      </div><!-- /left sidebar -->
+
+      <!-- content -->
+      <div class="col-sm-9">
+
+        <!-- content -->
+        <ng-content></ng-content>
+
+        <!-- footer -->
+        <div class="row fast-wizard__footer">
+          <button [style.visibility]="isFirstStep ? 'hidden' : 'visible'"
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="previousStep()">
+            Previous
+          </button>
+          {{index + 1}} / {{steps.length}}
+          <button *ngIf="!isFinalStep"
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="nextStep()">
+            Next
+          </button>
+          <button *ngIf="isFinalStep"
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="finishWizard()">
+            Finish
+          </button>
+        </div>
+      </div><!-- /content -->
+
+    </div><!-- /row -->
+
+  </div><!-- /container -->
+
+</div><!-- /container -->
