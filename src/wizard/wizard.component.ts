@@ -10,6 +10,7 @@ export class WizardComponent {
   // @Input('initStep') public index: number = 0;
   @Input('initStep') index: number = 0;
 
+  @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() finish: EventEmitter<any> = new EventEmitter();
 
   @ContentChildren(WizardStepComponent)
@@ -59,8 +60,8 @@ export class WizardComponent {
     this.finish.emit(null);
   }
 
-  private onClose(): void {
-    console.log('Do the closing thing right..?!')
+  private closeWizard(): void {
+    this.close.emit(null);
   }
 
 }
