@@ -5,8 +5,7 @@ import { WizardComponent } from './wizard.component';
 @Component({
   selector: 'fast-wizard-step',
   template: `
-    <div class="container"
-         [style.display]="isCurrent ? 'block' : 'none'">
+    <div [style.display]="isCurrent ? 'block' : 'none'">
       <h4>{{name}}</h4>
       <ng-content></ng-content>
     </div>

@@ -1,13 +1,11 @@
 <div id="kbonline">
-  <div class="pos-f-t">
-    <div class="navbar navbar-static-top navbar-light bg-faded">
-      <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> KB Online</span>
-      <button type="button"
-              class="btn close float-xs-right"
-              (click)="closeWizard()">
-        <i class="fa fa-close"></i>
-      </button>
-    </div>
+  <div class="navbar navbar-static-top navbar-light bg-faded">
+    <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> KB Online</span>
+    <button type="button"
+            class="btn close float-xs-right"
+            (click)="closeWizard()">
+      <i class="fa fa-close"></i>
+    </button>
   </div>
 
   <div class="container-fluid">
@@ -32,7 +30,7 @@
       </div><!-- /left sidebar -->
 
       <!-- content -->
-      <div class="col-sm-12 col-md-9">
+      <div class="container col-sm-12 col-md-9">
 
         <!-- content -->
         <ng-content></ng-content>
@@ -58,7 +56,8 @@
                   (click)="finishWizard()">
             Odeslat
           </button>
-        </div>
+        </div><!-- /footer -->
+
       </div><!-- /content -->
 
     </div><!-- /row -->
