@@ -1,9 +1,8 @@
 //@import "node_modules/font-awesome/scss/font-awesome.scss";
 
-$kbonline-green: #4EB04E;
+$green: #4EB04E;
 
-#kbonline {
-  /* padding-top: 5rem; */
+.ng2-f-wizard {
   width: 100%;
   height: 100%;
   position: relative;
@@ -11,8 +10,8 @@ $kbonline-green: #4EB04E;
   left: 0;
 }
 
-.fa-kbonline-green {
-  color: $kbonline-green;
+.fa-green {
+  color: $green;
 }
 
 .btn.close {
@@ -25,15 +24,15 @@ $kbonline-green: #4EB04E;
 }
 
 .navbar {
-  background: $kbonline-green;
+  background: $green;
   color: #eee;
 }
 
-.fast-step-list {
+.ng2-f-wizard-step-list {
   padding: 0;
   list-style: none;
 
-  .fast-circle {
+  .ng2-f-wizard-circle {
     font-weight: bold;
     width: 1.5em;
     height: 1.5em;
@@ -44,33 +43,33 @@ $kbonline-green: #4EB04E;
     color: #666;
   }
 
-  .fast-active,
-  .fast-clickable
+  .ng2-f-wizard-active,
+  .ng2-f-wizard-clickable
   {
     font-weight: bold;
 
-    .fast-circle {
+    .ng2-f-wizard-circle {
       background: #666;
       color: white;
     }
   }
 
-  .fast-step-list-item {
+  .ng2-f-wizard-step-list-item {
     margin: 5px;
     padding: 10px;
     color: #666;
     cursor: default;
   }
-  .fast-step-list-item.fast-clickable:hover {
+  .ng2-f-wizard-step-list-item.ng2-f-wizard-clickable:hover {
     background: #f0f0f0;
   }
-  .fast-step-list-item.fast-clickable {
+  .ng2-f-wizard-step-list-item.ng2-f-wizard-clickable {
     cursor: pointer;
   }
 
 }
 
-.fast-wizard__footer {
+.ng2-f-wizard-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;

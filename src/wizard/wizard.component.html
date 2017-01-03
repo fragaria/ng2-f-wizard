@@ -1,4 +1,4 @@
-<div id="kbonline">
+<div class="ng2-f-wizard">
   <div class="navbar navbar-static-top navbar-light bg-faded">
     <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> KB Online</span>
     <button type="button"
@@ -16,14 +16,14 @@
       <div class="col-sm-12 col-md-3">
 
         <!-- step list -->
-        <ul class="fast-step-list row">
+        <ul class="ng2-f-wizard-step-list row">
           <li *ngFor="let step of steps; let i = index"
-               class="fast-step-list-item col-xs-12 col-sm-6 col-md-12"
-              [class.fast-active]="isActive(i)"
-              [class.fast-clickable]="isClickable(i)"
+               class="ng2-f-wizard-step-list-item col-xs-12 col-sm-6 col-md-12"
+              [class.ng2-f-wizard-active]="isActive(i)"
+              [class.ng2-f-wizard-clickable]="isClickable(i)"
               (click)="isClickable(i) && setStep(i)">
-            <span class="fast-circle">{{i + 1}}</span> &nbsp; {{step.name}}
-            <i *ngIf="isClickable(i)" class="fa fa-check fa-lg fa-kbonline-green"></i>
+            <span class="ng2-f-wizard-circle">{{i + 1}}</span> &nbsp; {{step.name}}
+            <i *ngIf="isClickable(i)" class="fa fa-check fa-lg fa-green"></i>
           </li>
         </ul>
 
@@ -36,7 +36,7 @@
         <ng-content></ng-content>
 
         <!-- footer -->
-        <div class="row fast-wizard__footer">
+        <div class="row ng2-f-wizard-footer">
           <button [style.visibility]="isFirstStep ? 'hidden' : 'visible'"
                   type="button"
                   class="btn btn-secondary"
@@ -64,4 +64,4 @@
 
   </div><!-- /container -->
 
-</div><!-- /container -->
+</div><!-- /.ng2-f-wizard -->
