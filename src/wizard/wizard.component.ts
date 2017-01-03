@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ContentChildren, QueryList } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
 import { WizardStepComponent } from './wizard-step.component';
 
 @Component({
@@ -13,7 +13,7 @@ export class WizardComponent {
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() finish: EventEmitter<any> = new EventEmitter();
 
-  @ContentChildren(WizardStepComponent)
+  @ViewChildren(WizardStepComponent)
   public steps: QueryList<WizardStepComponent>;
 
   private visited: number = -1;
@@ -23,6 +23,8 @@ export class WizardComponent {
 
   ngOnInit() {
     this.setStep(this.index);
+    // NOTE for future changes subscription
+    //this.steps.changes.subscribe(changes => console.log(changes));
   }
 
   private get isFinalStep(): boolean {

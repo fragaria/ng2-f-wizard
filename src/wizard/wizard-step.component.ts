@@ -21,8 +21,8 @@ export class WizardStepComponent {
 
   constructor(
     // Magie ktera umi vyresit cyklickou zavislost
-    @Inject(forwardRef(() => WizardComponent)) private parent:WizardComponent
-    //private parent: WizardComponent
+    @Inject(forwardRef(() => WizardComponent))
+    private parent: WizardComponent
   ) {}
 
   ngAfterContentInit() {
