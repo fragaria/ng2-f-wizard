@@ -3,7 +3,7 @@ import { Inject, forwardRef } from '@angular/core';
 import { WizardComponent } from './wizard.component';
 
 @Component({
-  selector: 'fast-wizard-step',
+  selector: 'ng2-f-wizard-step',
   template: `
     <div [style.display]="isCurrent ? 'block' : 'none'">
       <h4>{{name}}</h4>

@@ -2,8 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChildren, QueryList } from 
 import { WizardStepComponent } from './wizard-step.component';
 
 @Component({
-  selector: 'fast-wizard',
-  styleUrls: ['wizard.component.scss'],
+  selector: 'ng2-f-wizard',
   templateUrl: './wizard.component.html',
 })
 export class WizardComponent {
