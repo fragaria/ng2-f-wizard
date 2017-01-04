@@ -1,45 +1,50 @@
 {
   "name": "ng2-f-wizard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A wizard component for FAST forms.",
   "license": "",
+  "main": "dist/index.js",
+  "typings": "dist/indes.d.ts",
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "scripts": {
+    "lint": "npm run lint:ts",
+    "lint:ts": "tslint 'src/**/*.ts'",
+    "clean": "rimraf dist",
+    "build": "npm run build:dev",
+    "build:prod": "npm run build",
+    "build:dev": "tsc -p tsconfig.json",
+    "prebuild": "npm run clean",
+    "prebuild:dev": "npm run clean",
+    "watch": "npm run build:dev -- --watch"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/fragaria/ng2-f-wizard.git"
   },
-  "scripts": {
-    "lint": "npm run lint:ts",
-    "lint:ts": "tslint src/{,**/}*.ts",
-    "postinstall": "typings install",
-    "tslint": "tslint",
-    "typedoc": "typedoc",
-    "typings": "typings"
+  "dependencies": {
+    "ng2-bootstrap": "~1.1.16"
   },
   "devDependencies": {
-    "@types/istanbul": "^0.4.22-alpha",
-    "angular2-template-loader": "^0.5.0",
-    "awesome-typescript-loader": "^2.2.4",
-    "codelyzer": "0.0.28",
-    "istanbul-instrumenter-loader": "^0.2.0",
-    "raw-loader": "^0.5.1",
-    "source-map-loader": "^0.1.5",
-    "ts-helpers": "1.1.1",
-    "tslint": "^3.15.1",
-    "tslint-loader": "^2.1.4",
-    "typedoc": "^0.4.5",
-    "typescript": "^2.0.0",
-    "typings": "^1.3.3"
-  },
-  "dependencies": {
-    "@angular/common": "^2.0.1",
-    "@angular/core": "^2.0.1",
-    "@angular/forms": "^2.0.1",
-    "@types/lodash": "^4.14.37",
-    "core-js": "^2.4.1",
-    "font-awesome": "^4.7.0",
-    "lodash": "^4.16.3",
-    "rxjs": "5.0.0-beta.12",
-    "zone.js": "0.6.25"
+    "@angular/common": "~2.2.4",
+    "@angular/compiler": "~2.2.4",
+    "@angular/compiler-cli": "~2.2.4",
+    "@angular/core": "~2.2.4",
+    "@angular/forms": "~2.2.4",
+    "@angular/http": "~2.2.4",
+    "@angular/platform-browser": "~2.2.4",
+    "@angular/platform-browser-dynamic": "~2.2.4",
+    "@angular/router": "~3.2.4",
+    "@types/core-js": "~0.9.34",
+    "@types/node": "~6.0.51",
+    "core-js": "~2.4.1",
+    "reflect-metadata": "^0.1.8",
+    "rimraf": "^2.5.3",
+    "rxjs": "5.0.1",
+    "typescript": "2.0.10",
+    "zone.js": "0.7.2"
   },
   "publishConfig": {
     "registry": "https://kb-fast1.f-app.it/nexus/repository/npm-fast-private/"
