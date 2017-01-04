@@ -3,7 +3,7 @@ import { WizardStepComponent } from './wizard-step.component';
 
 @Component({
   selector: 'ng2-f-wizard',
-  templateUrl: './wizard.component.html',
+  template: require('./wizard.component.html'),
 })
 export class WizardComponent {
   // @Input('initStep') public index: number = 0;
