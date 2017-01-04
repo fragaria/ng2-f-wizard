@@ -4,7 +4,7 @@
   "description": "A wizard component for FAST forms.",
   "license": "",
   "main": "dist/index.js",
-  "typings": "dist/indes.d.ts",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist/",
     "src/"
