@@ -15,4 +15,5 @@ Wizard component for KBOnline FAST app.
 
 ## Deploy
 * `npm run build`
-* `npm publish`
+* check registry: `npm config get registry`
+* `npm --access public publish`
