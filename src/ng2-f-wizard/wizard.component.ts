@@ -1,5 +1,14 @@
-import { Component, Input, Output, EventEmitter, ContentChildren, QueryList } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ContentChild,
+  ContentChildren,
+  QueryList
+} from '@angular/core';
 import { WizardStepComponent } from './wizard-step.component';
+import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
 
 @Component({
   selector: 'ng2-f-wizard',
@@ -9,7 +18,7 @@ import { WizardStepComponent } from './wizard-step.component';
       <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> KB Online</span>
       <button type="button"
               class="btn close float-xs-right"
-              (click)="closeWizard()">
+              (click)="emitWizardClose()">
         <i class="fa fa-close"></i>
       </button>
     </div>
@@ -19,7 +28,7 @@ import { WizardStepComponent } from './wizard-step.component';
       <div class="row">
 
         <!-- left sidebar -->
-        <div class="col-sm-12 col-md-3">
+        <div *ngIf="controllsVisible" class="col-sm-12 col-md-3">
 
           <!-- step list -->
           <ul class="ng2-f-wizard-step-list row">
@@ -36,13 +45,15 @@ import { WizardStepComponent } from './wizard-step.component';
         </div><!-- /left sidebar -->
 
         <!-- content -->
-        <div class="container col-sm-12 col-md-9">
+        <div class="container col-xs-12"
+            [class.col-md-9]="controllsVisible">
 
           <!-- step content -->
           <ng-content></ng-content>
 
           <!-- footer -->
-          <div class="row ng2-f-wizard-footer">
+          <div *ngIf="controllsVisible" class="row ng2-f-wizard-footer">
+            <!--
             <button [style.visibility]="isFirstStep ? 'hidden' : 'visible'"
                     type="button"
                     class="btn btn-secondary"
@@ -50,16 +61,17 @@ import { WizardStepComponent } from './wizard-step.component';
               Předchozí
             </button>
             {{index + 1}} / {{steps.length}}
+            -->
             <button *ngIf="!isFinalStep"
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn btn-secondary col-xs-12 col-md-3 offset-md-8"
                     (click)="nextStep()">
               Další
             </button>
             <button *ngIf="isFinalStep"
                     type="button"
-                    class="btn btn-secondary"
-                    (click)="finishWizard()">
+                    class="btn btn-secondary col-xs-12 col-md-3 offset-md-8"
+                    (click)="emitWizardFinish()">
               Odeslat
             </button>
           </div><!-- /footer -->
@@ -73,12 +85,16 @@ export class WizardComponent {
   // @Input('initStep') public index: number = 0;
   @Input('initStep') index: number = 0;
 
+  @Output() stepChanged: EventEmitter<number> = new EventEmitter();
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() finish: EventEmitter<any> = new EventEmitter();
 
   @ContentChildren(WizardStepComponent) steps: QueryList<WizardStepComponent>;
+  @ContentChild(ThankYouWizardStepComponent) thankYouStep: ThankYouWizardStepComponent;
 
+  private controllsVisible: boolean = true;
   private visited: number = -1;
+  private currentStep: WizardStepComponent = null;
 
   constructor()
   { }
@@ -111,9 +127,11 @@ export class WizardComponent {
     this.visited = index;
     //this.visited = (index > this.visited ? index : this.visited);
 
-    var currentStep: WizardStepComponent = this.steps.toArray()[index];
+    this.currentStep = this.steps.toArray()[index];
     this.steps.forEach(s => s.hide());
-    currentStep.show()
+    this.currentStep.show();
+
+    this.emitStepChanged(index);
   }
 
   private nextStep(): void {
@@ -124,11 +142,29 @@ export class WizardComponent {
     this.setStep(this.index - 1);
   }
 
-  private finishWizard(): void {
-    this.finish.emit(null);
+  private showThankYouStep(): void {
+    // hide controlls
+    this.controllsVisible = false;
+
+    // show only the thank you step
+    if (this.thankYouStep) {
+      this.steps.forEach(s => s.hide());
+      this.thankYouStep.show();
+    }
   }
 
-  private closeWizard(): void {
+  private emitStepChanged(id: number): void {
+    // TODO somehow fire a required promise returning callback
+    this.stepChanged.emit(id);
+  }
+
+  private emitWizardFinish(): void {
+    // TODO somehow fire a required promise returning callback
+    this.finish.emit(null);
+    this.showThankYouStep();
+  }
+
+  private emitWizardClose(): void {
     this.close.emit(null);
   }
 
