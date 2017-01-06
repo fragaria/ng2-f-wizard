@@ -96,12 +96,13 @@ export class WizardComponent {
   private visited: number = -1;
   private currentStep: WizardStepComponent = null;
 
-  constructor()
-  { }
+  constructor(){ }
 
   ngAfterContentInit() {
-    this.setStep(this.index);
-    // NOTE for future changes subscription
+    // NOTE setStep would emit step change, don't call it here
+    this.currentStep = this.steps.toArray()[0];
+    this.currentStep.show();
+    // NOTE for future changes in list of steps subscribe
     //this.steps.changes.subscribe(changes => console.log(changes));
   }
 
@@ -123,6 +124,7 @@ export class WizardComponent {
 
   private setStep(index: number): void {
     this.index = index;
+
     // TODO DELME and UNCOMMENT
     this.visited = index;
     //this.visited = (index > this.visited ? index : this.visited);
