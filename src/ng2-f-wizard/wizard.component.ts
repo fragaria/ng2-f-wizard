@@ -1,18 +1,18 @@
 import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  ContentChild,
-  ContentChildren,
-  QueryList
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    ContentChild,
+    ContentChildren,
+    QueryList
 } from '@angular/core';
 import { WizardStepComponent } from './wizard-step.component';
 import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
 
 @Component({
-  selector: 'ng2-f-wizard',
-  template: `
+    selector: 'ng2-f-wizard',
+    template: `
     <div class="ng2-f-wizard">
     <div class="navbar navbar-static-top navbar-light bg-faded">
       <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> KB Online</span>
@@ -37,7 +37,7 @@ import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
                 [class.ng2-f-wizard-active]="isActive(i)"
                 [class.ng2-f-wizard-clickable]="isClickable(i)"
                 (click)="isClickable(i) && setStep(i)">
-              <span class="ng2-f-wizard-circle">{{i + 1}}</span> &nbsp; {{step.name}}
+              <span class="ng2-f-wizard-circle">{{reindex(i)}}</span> &nbsp; {{step.name}}
               <i *ngIf="isClickable(i)" class="fa fa-check fa-lg fa-green"></i>
             </li>
           </ul>
@@ -82,95 +82,100 @@ import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
   `
 })
 export class WizardComponent {
-  @Input('initStep') index: number = 0;
+    @Input('initStep') index: number = 0;
+    @Input() startAt: number = 1;
 
-  @Output() stepChanged: EventEmitter<number> = new EventEmitter();
-  @Output() close: EventEmitter<any> = new EventEmitter();
-  @Output() finish: EventEmitter<any> = new EventEmitter();
+    @Output() stepChanged: EventEmitter<number> = new EventEmitter();
+    @Output() close: EventEmitter<any> = new EventEmitter();
+    @Output() finish: EventEmitter<any> = new EventEmitter();
 
-  @ContentChildren(WizardStepComponent) steps: QueryList<WizardStepComponent>;
-  @ContentChild(ThankYouWizardStepComponent) thankYouStep: ThankYouWizardStepComponent;
+    @ContentChildren(WizardStepComponent) steps: QueryList<WizardStepComponent>;
+    @ContentChild(ThankYouWizardStepComponent) thankYouStep: ThankYouWizardStepComponent;
 
-  private controllsVisible: boolean = true;
-  private visited: number = -1;
-  private currentStep: WizardStepComponent = null;
+    private controllsVisible: boolean = true;
+    private visited: number = -1;
+    private currentStep: WizardStepComponent = null;
 
-  constructor(){ }
+    constructor() { }
 
-  ngAfterContentInit() {
-    // NOTE setStep would emit step change, don't call it here
-    this.visited = this.index;
-    this.currentStep = this.steps.toArray()[this.index];
-    this.currentStep.show();
+    ngAfterContentInit() {
+        // NOTE setStep would emit step change, don't call it here
+        this.visited = this.index;
+        this.currentStep = this.steps.toArray()[this.index];
+        this.currentStep.show();
 
-    // NOTE for future changes in list of steps subscribe
-    //this.steps.changes.subscribe(changes => console.log(changes));
-  }
-
-  private get isFinalStep(): boolean {
-    return this.index === this.steps.length - 1;
-  }
-
-  private get isFirstStep(): boolean {
-    return this.index === 0;
-  }
-
-  private isActive(index: number): boolean {
-    return index == this.index;
-  }
-
-  private isClickable(index: number): boolean {
-    return index <= this.visited && !this.isActive(index);
-  }
-
-  public setStep(index: number): void {
-    this.index = index;
-
-    // TODO DELME and UNCOMMENT
-    this.visited = index;
-    //this.visited = (index > this.visited ? index : this.visited);
-
-    this.currentStep = this.steps.toArray()[index];
-    this.steps.forEach(s => s.hide());
-    this.currentStep.show();
-
-    this.controllsVisible = this.currentStep.controllsVisible;
-
-    this.emitStepChanged(index);
-  }
-
-  public nextStep(): void {
-    this.setStep(this.index + 1);
-  }
-
-  public previousStep(): void  {
-    this.setStep(this.index - 1);
-  }
-
-  private showThankYouStep(): void {
-    // hide controlls
-    this.controllsVisible = false;
-
-    // show only the thank you step
-    if (this.thankYouStep) {
-      this.steps.forEach(s => s.hide());
-      this.thankYouStep.show();
+        // NOTE for future changes in list of steps subscribe
+        //this.steps.changes.subscribe(changes => console.log(changes));
     }
-  }
 
-  private emitStepChanged(id: number): void {
-    // TODO somehow fire a required promise returning callback
-    this.stepChanged.emit(id);
-  }
+    private reindex(i: number): number {
+        return i + this.startAt;
+    }
 
-  private emitWizardFinish(): void {
-    // TODO somehow fire a required promise returning callback
-    this.finish.emit(null);
-    this.showThankYouStep();
-  }
+    private get isFinalStep(): boolean {
+        return this.index === this.steps.length - 1;
+    }
 
-  private emitWizardClose(): void {
-    this.close.emit(null);
-  }
+    private get isFirstStep(): boolean {
+        return this.index === 0;
+    }
+
+    private isActive(index: number): boolean {
+        return index == this.index;
+    }
+
+    private isClickable(index: number): boolean {
+        return index <= this.visited && !this.isActive(index);
+    }
+
+    public setStep(index: number): void {
+        this.index = index;
+
+        // TODO DELME and UNCOMMENT
+        this.visited = index;
+        //this.visited = (index > this.visited ? index : this.visited);
+
+        this.currentStep = this.steps.toArray()[index];
+        this.steps.forEach(s => s.hide());
+        this.currentStep.show();
+
+        this.controllsVisible = this.currentStep.controllsVisible;
+
+        this.emitStepChanged(index);
+    }
+
+    public nextStep(): void {
+        this.setStep(this.index + 1);
+    }
+
+    public previousStep(): void {
+        this.setStep(this.index - 1);
+    }
+
+    private showThankYouStep(): void {
+        // hide controlls
+        this.controllsVisible = false;
+
+        // show only the thank you step
+        if (this.thankYouStep) {
+            this.steps.forEach(s => s.hide());
+            this.thankYouStep.show();
+        }
+    }
+
+    private emitStepChanged(id: number): void {
+        // TODO somehow fire a required promise returning callback
+        this.stepChanged.emit(id);
+    }
+
+    private emitWizardFinish(): void {
+        // TODO somehow fire a required promise returning callback
+        this.finish.emit(null);
+        this.showThankYouStep();
+    }
+
+    private emitWizardClose(): void {
+        this.close.emit(null);
+    }
 
 }
