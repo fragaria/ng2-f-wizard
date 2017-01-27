@@ -102,6 +102,7 @@ export class WizardComponent {
         // NOTE setStep would emit step change, don't call it here
         this.visited = this.index;
         this.currentStep = this.steps.toArray()[this.index];
+        this.controllsVisible = this.currentStep.controllsVisible;
         this.currentStep.show();
 
         // NOTE for future changes in list of steps subscribe
@@ -145,10 +146,12 @@ export class WizardComponent {
     }
 
     public nextStep(): void {
+        if (this.isFinalStep) return;
         this.setStep(this.index + 1);
     }
 
     public previousStep(): void {
+        if (this.isFirstStep) return;
         this.setStep(this.index - 1);
     }
 
