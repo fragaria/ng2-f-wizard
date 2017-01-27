@@ -82,7 +82,6 @@ import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
   `
 })
 export class WizardComponent {
-  // @Input('initStep') public index: number = 0;
   @Input('initStep') index: number = 0;
 
   @Output() stepChanged: EventEmitter<number> = new EventEmitter();
@@ -100,8 +99,10 @@ export class WizardComponent {
 
   ngAfterContentInit() {
     // NOTE setStep would emit step change, don't call it here
-    this.currentStep = this.steps.toArray()[0];
+    this.visited = this.index;
+    this.currentStep = this.steps.toArray()[this.index];
     this.currentStep.show();
+
     // NOTE for future changes in list of steps subscribe
     //this.steps.changes.subscribe(changes => console.log(changes));
   }
