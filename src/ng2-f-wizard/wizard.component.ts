@@ -123,7 +123,7 @@ export class WizardComponent {
     return index <= this.visited && !this.isActive(index);
   }
 
-  private setStep(index: number): void {
+  public setStep(index: number): void {
     this.index = index;
 
     // TODO DELME and UNCOMMENT
@@ -137,11 +137,11 @@ export class WizardComponent {
     this.emitStepChanged(index);
   }
 
-  private nextStep(): void {
+  public nextStep(): void {
     this.setStep(this.index + 1);
   }
 
-  private previousStep(): void  {
+  public previousStep(): void  {
     this.setStep(this.index - 1);
   }
 
