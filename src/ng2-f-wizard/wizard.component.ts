@@ -134,6 +134,8 @@ export class WizardComponent {
     this.steps.forEach(s => s.hide());
     this.currentStep.show();
 
+    this.controllsVisible = this.currentStep.controllsVisible;
+
     this.emitStepChanged(index);
   }
 

@@ -12,6 +12,8 @@ import { Inject, forwardRef } from '@angular/core';
 })
 export class WizardStepComponent {
   @Input() name: string = 'nevim';
+  @Input() controllsVisible = true;
+
   private visible: boolean = false;
 
   constructor() {}
