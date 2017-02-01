@@ -28,7 +28,7 @@ import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
       <div class="row">
 
         <!-- left sidebar -->
-        <div *ngIf="controllsVisible" class="col-sm-12 col-md-3">
+        <div *ngIf="stepListVisible" class="col-sm-12 col-md-3">
 
           <!-- step list -->
           <ul class="ng2-f-wizard-step-list row">
@@ -46,13 +46,13 @@ import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
 
         <!-- content -->
         <div class="container col-xs-12"
-            [class.col-md-9]="controllsVisible">
+            [class.col-md-9]="stepListVisible">
 
           <!-- step content -->
           <ng-content></ng-content>
 
           <!-- footer -->
-          <div *ngIf="controllsVisible" class="row ng2-f-wizard-footer">
+          <div *ngIf="footerVisible" class="row ng2-f-wizard-footer">
             <!--
             <button [style.visibility]="isFirstStep ? 'hidden' : 'visible'"
                     type="button"
@@ -102,7 +102,6 @@ export class WizardComponent {
         // NOTE setStep would emit step change, don't call it here
         this.visited = this.index;
         this.currentStep = this.steps.toArray()[this.index];
-        this.controllsVisible = this.currentStep.controllsVisible;
         this.currentStep.show();
 
         // NOTE for future changes in list of steps subscribe
@@ -111,6 +110,14 @@ export class WizardComponent {
 
     private reindex(i: number): number {
         return i + this.startAt;
+    }
+
+    private get stepListVisible(): boolean {
+        return this.controllsVisible && !this.currentStep.noStepList;
+    }
+
+    private get footerVisible(): boolean {
+        return this.controllsVisible && !this.currentStep.noFooter;
     }
 
     private get isFinalStep(): boolean {
@@ -139,8 +146,6 @@ export class WizardComponent {
         this.currentStep = this.steps.toArray()[index];
         this.steps.forEach(s => s.hide());
         this.currentStep.show();
-
-        this.controllsVisible = this.currentStep.controllsVisible;
 
         this.emitStepChanged(index);
     }

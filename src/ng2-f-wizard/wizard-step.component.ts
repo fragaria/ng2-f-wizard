@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef } from '@angular/core';
 import { Inject, forwardRef } from '@angular/core';
 
 @Component({
@@ -12,11 +12,18 @@ import { Inject, forwardRef } from '@angular/core';
 })
 export class WizardStepComponent {
     @Input() name: string = '';
-    @Input() controllsVisible: boolean = true;
 
     private visible: boolean = false;
 
-    constructor() { }
+    constructor(private elementRef: ElementRef) { }
+
+    public get noStepList(): boolean {
+        return !!this.elementRef.nativeElement.attributes['nosteplist'];
+    }
+
+    public get noFooter(): boolean {
+        return !!this.elementRef.nativeElement.attributes['nofooter'];
+    }
 
     public show(): void {
         this.visible = true;
