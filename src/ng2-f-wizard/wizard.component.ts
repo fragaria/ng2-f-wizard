@@ -32,14 +32,16 @@ import { WizardStepComponent } from './wizard-step.component';
 
           <!-- step list -->
           <ul class="ng2-f-wizard-step-list row">
-            <li *ngFor="let step of steps; let i = index"
-                 class="ng2-f-wizard-step-list-item col-xs-12 col-sm-6 col-md-12"
-                [class.ng2-f-wizard-active]="isActive(i)"
-                [class.ng2-f-wizard-clickable]="isClickable(i)"
-                (click)="isClickable(i) && emitOnStepList(i)">
-              <span class="ng2-f-wizard-circle">{{reindex(i)}}</span> &nbsp; {{step.name}}
-              <i *ngIf="isClickable(i)" class="fa fa-check fa-lg fa-green"></i>
-            </li>
+            <ng-container *ngFor="let step of steps; let i = index">
+              <li *ngIf="!step.unlisted"
+                   class="ng2-f-wizard-step-list-item col-xs-12 col-sm-6 col-md-12"
+                  [class.ng2-f-wizard-active]="isActive(i)"
+                  [class.ng2-f-wizard-clickable]="isClickable(i)"
+                  (click)="isClickable(i) && emitOnStepList(i)">
+                <span class="ng2-f-wizard-circle">{{reindex(i)}}</span> &nbsp; {{step.name}}
+                <i *ngIf="isClickable(i)" class="fa fa-check fa-lg fa-green"></i>
+              </li>
+            </ng-container>
           </ul>
 
         </div><!-- /left sidebar -->
@@ -90,15 +92,17 @@ export class WizardComponent {
     @Output() onClose: EventEmitter<any> = new EventEmitter();
     @Output() onFinish: EventEmitter<any> = new EventEmitter();
 
-    // Steps
+    //// Steps handling
+
+    private currentStep: WizardStepComponent = null;
+
     @ContentChildren(WizardStepComponent) _stepsContentChildren: QueryList<WizardStepComponent>;
+
     private _steps: any[];
+
     private get steps(): any[] {
         return this._steps || (this._steps = this._stepsContentChildren.toArray());
     }
-
-    private visited: number = -1;
-    private currentStep: WizardStepComponent = null;
 
     constructor() { }
 
@@ -107,11 +111,20 @@ export class WizardComponent {
         console.log(`First step is ${this.steps[0].name}`);
         console.log(`Starting at index ${this.index} shown as ${this.reindex(this.index)}`);
 
-        // NOTE Not invoking stepChange on init.
-        this.setStep(this.index, false);
+        this.setStep(this.index);
 
         // NOTE for future changes in list of steps subscribe
         //this._stepsContentChildren.changes.subscribe(changes => console.log(changes));
+    }
+
+    //// Template helpers
+
+    private get visited(): number {
+        // NOTE We really want user to go through the rest of the wizard
+        // again, so the following is correct =/
+        return this.index;
+        // Otherwise we probably should do this in setStep method
+        //this.visited = (index > this.visited ? index : this.visited);
     }
 
     private reindex(i: number): number {
@@ -142,27 +155,22 @@ export class WizardComponent {
         return index <= this.visited && !this.isActive(index);
     }
 
-    public setStep(index: number, emitStepChange: boolean = true): void {
-        this.index = index;
+    //// Public API
 
-        // NOTE We really want user to go through the rest of the wizard
-        // again, so the following is correct =/
-        this.visited = index;
-        //this.visited = (index > this.visited ? index : this.visited);
+    public setStep(index: number): void {
+        this.index = index;
 
         this.currentStep = this.steps[index];
         this.steps.forEach(s => s.hide());
         this.currentStep.show();
-
-        if (emitStepChange) {
-            this.emitStepChanged(index);
-        }
+        console.log(`Wizard changed to step ${this.index}.`);
     }
 
     /** Go to next step. This method should be called when current step's data
      *  are validated (and valid) and communication with BE is finished. */
     public nextStep(): void {
         if (this.isFinalStep) return;
+        console.log(`Wizard going to next step ${this.index + 1}.`);
         this.setStep(this.index + 1);
     }
 
@@ -172,25 +180,31 @@ export class WizardComponent {
     //     this.setStep(this.index - 1);
     // }
 
-    /** Currently just goes to the last (usually Thank you) step.
-     */
+    /** Currently just goes to the last (usually Thank you) step. */
     public finishWizard(): void {
+        console.log("Wizard going to finis (just next step for now).");
         this.nextStep();
     }
 
-    private emitOnNext(id: number): void {
-        this.onNext.emit(id);
+    //// Events emittors
+
+    private emitOnNext(): void {
+        console.log("Wizard emitting 'OnNext' event.");
+        this.onNext.emit(null);
     }
 
     private emitOnStepList(id: number): void {
+        console.log("Wizard emitting 'OnStepList' event.");
         this.onStepList.emit(id);
     }
 
     private emitOnFinish(): void {
+        console.log("Wizard emitting 'OnFinish' event.");
         this.onFinish.emit(null);
     }
 
     private emitOnClose(): void {
+        console.log("Wizard emitting 'OnClose' event.");
         this.onClose.emit(null);
     }
 

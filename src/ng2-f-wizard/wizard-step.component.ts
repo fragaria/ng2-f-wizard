@@ -22,6 +22,11 @@ export class WizardStepComponent {
     constructor(private elementRef: ElementRef,
         private _changeDetectionRef: ChangeDetectorRef) { }
 
+    /** Hide this Step from Step List if `unlisted` attribute is present*/
+    public get unlisted(): boolean {
+        return !!this.elementRef.nativeElement.attributes['unlisted'];
+    }
+
     /** Hide Step List if `nosteplist` attribute is present. */
     public get noStepList(): boolean {
         return !!this.elementRef.nativeElement.attributes['nosteplist'];
@@ -44,6 +49,7 @@ export class WizardStepComponent {
         this.fireChangeDetector();
     }
 
+    // See: https://github.com/angular/angular/issues/6005#issuecomment-195991516
     private fireChangeDetector(): void {
         this._changeDetectionRef.detectChanges();
     }
