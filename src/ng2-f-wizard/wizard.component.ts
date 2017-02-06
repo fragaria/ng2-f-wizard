@@ -7,8 +7,8 @@ import {
     ContentChildren,
     QueryList
 } from '@angular/core';
+
 import { WizardStepComponent } from './wizard-step.component';
-import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
 
 @Component({
     selector: 'ng2-f-wizard',
@@ -18,7 +18,7 @@ import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
       <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> KB Online</span>
       <button type="button"
               class="btn close float-xs-right"
-              (click)="emitWizardClose()">
+              (click)="emitOnClose()">
         <i class="fa fa-close"></i>
       </button>
     </div>
@@ -36,7 +36,7 @@ import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
                  class="ng2-f-wizard-step-list-item col-xs-12 col-sm-6 col-md-12"
                 [class.ng2-f-wizard-active]="isActive(i)"
                 [class.ng2-f-wizard-clickable]="isClickable(i)"
-                (click)="isClickable(i) && setStep(i)">
+                (click)="isClickable(i) && emitOnStepList(i)">
               <span class="ng2-f-wizard-circle">{{reindex(i)}}</span> &nbsp; {{step.name}}
               <i *ngIf="isClickable(i)" class="fa fa-check fa-lg fa-green"></i>
             </li>
@@ -53,7 +53,7 @@ import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
 
           <!-- footer -->
           <div *ngIf="footerVisible" class="row ng2-f-wizard-footer">
-            <!--
+            <!-- NOTE Not used for now
             <button [style.visibility]="isFirstStep ? 'hidden' : 'visible'"
                     type="button"
                     class="btn btn-secondary"
@@ -65,13 +65,13 @@ import { ThankYouWizardStepComponent } from './thank-you-wizard-step.component';
             <button *ngIf="!isFinalStep"
                     type="button"
                     class="btn btn-secondary col-xs-12 col-md-3 offset-md-8"
-                    (click)="nextStep()">
+                    (click)="emitOnNext()">
               Další
             </button>
             <button *ngIf="isFinalStep"
                     type="button"
                     class="btn btn-secondary col-xs-12 col-md-3 offset-md-8"
-                    (click)="emitWizardFinish()">
+                    (click)="emitOnFinish()">
               Odeslat
             </button>
           </div><!-- /footer -->
@@ -85,27 +85,33 @@ export class WizardComponent {
     @Input('initStep') index: number = 0;
     @Input() startAt: number = 1;
 
-    @Output() stepChanged: EventEmitter<number> = new EventEmitter();
-    @Output() close: EventEmitter<any> = new EventEmitter();
-    @Output() finish: EventEmitter<any> = new EventEmitter();
+    @Output() onStepList: EventEmitter<number> = new EventEmitter();
+    @Output() onNext: EventEmitter<number> = new EventEmitter();
+    @Output() onClose: EventEmitter<any> = new EventEmitter();
+    @Output() onFinish: EventEmitter<any> = new EventEmitter();
 
-    @ContentChildren(WizardStepComponent) steps: QueryList<WizardStepComponent>;
-    @ContentChild(ThankYouWizardStepComponent) thankYouStep: ThankYouWizardStepComponent;
+    // Steps
+    @ContentChildren(WizardStepComponent) _stepsContentChildren: QueryList<WizardStepComponent>;
+    private _steps: any[];
+    private get steps(): any[] {
+        return this._steps || (this._steps = this._stepsContentChildren.toArray());
+    }
 
-    private controllsVisible: boolean = true;
     private visited: number = -1;
     private currentStep: WizardStepComponent = null;
 
     constructor() { }
 
     ngAfterContentInit() {
-        // NOTE setStep would emit step change, don't call it here
-        this.visited = this.index;
-        this.currentStep = this.steps.toArray()[this.index];
-        this.currentStep.show();
+        console.log(`Wizard has ${this.steps.length} steps.`);
+        console.log(`First step is ${this.steps[0].name}`);
+        console.log(`Starting at index ${this.index} shown as ${this.reindex(this.index)}`);
+
+        // NOTE Not invoking stepChange on init.
+        this.setStep(this.index, false);
 
         // NOTE for future changes in list of steps subscribe
-        //this.steps.changes.subscribe(changes => console.log(changes));
+        //this._stepsContentChildren.changes.subscribe(changes => console.log(changes));
     }
 
     private reindex(i: number): number {
@@ -113,11 +119,11 @@ export class WizardComponent {
     }
 
     private get stepListVisible(): boolean {
-        return this.controllsVisible && !this.currentStep.noStepList;
+        return !this.currentStep.noStepList;
     }
 
     private get footerVisible(): boolean {
-        return this.controllsVisible && !this.currentStep.noFooter;
+        return !this.currentStep.noFooter;
     }
 
     private get isFinalStep(): boolean {
@@ -136,54 +142,56 @@ export class WizardComponent {
         return index <= this.visited && !this.isActive(index);
     }
 
-    public setStep(index: number): void {
+    public setStep(index: number, emitStepChange: boolean = true): void {
         this.index = index;
 
-        // TODO DELME and UNCOMMENT
+        // NOTE We really want user to go through the rest of the wizard
+        // again, so the following is correct =/
         this.visited = index;
         //this.visited = (index > this.visited ? index : this.visited);
 
-        this.currentStep = this.steps.toArray()[index];
+        this.currentStep = this.steps[index];
         this.steps.forEach(s => s.hide());
         this.currentStep.show();
 
-        this.emitStepChanged(index);
+        if (emitStepChange) {
+            this.emitStepChanged(index);
+        }
     }
 
+    /** Go to next step. This method should be called when current step's data
+     *  are validated (and valid) and communication with BE is finished. */
     public nextStep(): void {
         if (this.isFinalStep) return;
         this.setStep(this.index + 1);
     }
 
-    public previousStep(): void {
-        if (this.isFirstStep) return;
-        this.setStep(this.index - 1);
+    // NOTE Not used for now
+    // public previousStep(): void {
+    //     if (this.isFirstStep) return;
+    //     this.setStep(this.index - 1);
+    // }
+
+    /** Currently just goes to the last (usually Thank you) step.
+     */
+    public finishWizard(): void {
+        this.nextStep();
     }
 
-    private showThankYouStep(): void {
-        // hide controlls
-        this.controllsVisible = false;
-
-        // show only the thank you step
-        if (this.thankYouStep) {
-            this.steps.forEach(s => s.hide());
-            this.thankYouStep.show();
-        }
+    private emitOnNext(id: number): void {
+        this.onNext.emit(id);
     }
 
-    private emitStepChanged(id: number): void {
-        // TODO somehow fire a required promise returning callback
-        this.stepChanged.emit(id);
+    private emitOnStepList(id: number): void {
+        this.onStepList.emit(id);
     }
 
-    private emitWizardFinish(): void {
-        // TODO somehow fire a required promise returning callback
-        this.finish.emit(null);
-        this.showThankYouStep();
+    private emitOnFinish(): void {
+        this.onFinish.emit(null);
     }
 
-    private emitWizardClose(): void {
-        this.close.emit(null);
+    private emitOnClose(): void {
+        this.onClose.emit(null);
     }
 
 }
