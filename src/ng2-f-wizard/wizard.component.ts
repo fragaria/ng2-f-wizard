@@ -15,7 +15,7 @@ import { WizardStepComponent } from './wizard-step.component';
     template: `
     <div class="ng2-f-wizard">
     <div class="navbar navbar-static-top navbar-light bg-faded">
-      <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> KB Online</span>
+      <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> {{title}} </span>
       <button type="button"
               class="btn close float-xs-right"
               (click)="emitOnClose()">
@@ -86,11 +86,30 @@ import { WizardStepComponent } from './wizard-step.component';
 export class WizardComponent {
     @Input('initStep') index: number = 0;
     @Input() startAt: number = 1;
+    @Input() title: string = "KB Online";
 
     @Output() onStepList: EventEmitter<number> = new EventEmitter();
     @Output() onNext: EventEmitter<number> = new EventEmitter();
     @Output() onClose: EventEmitter<any> = new EventEmitter();
     @Output() onFinish: EventEmitter<any> = new EventEmitter();
+
+    //// Initialization
+
+    constructor() { }
+
+    ngAfterContentInit() {
+        console.log(`Wizard has ${this.steps.length} steps.`);
+        console.log(`Wizard's first step is ${this.steps[0].name}`);
+        console.log(`Wizard starting at index ${this.index} shown as ${this.reindex(this.index)}`);
+
+        this.setStep(this.index);
+
+        // NOTE for future changes in list of steps subscribe
+        this._stepsContentChildren.changes.subscribe(changes => {
+            console.log("Wizard noticed changes in steps: ", changes);
+            delete this._steps;
+        });
+    }
 
     //// Steps handling
 
@@ -102,19 +121,6 @@ export class WizardComponent {
 
     private get steps(): any[] {
         return this._steps || (this._steps = this._stepsContentChildren.toArray());
-    }
-
-    constructor() { }
-
-    ngAfterContentInit() {
-        console.log(`Wizard has ${this.steps.length} steps.`);
-        console.log(`First step is ${this.steps[0].name}`);
-        console.log(`Starting at index ${this.index} shown as ${this.reindex(this.index)}`);
-
-        this.setStep(this.index);
-
-        // NOTE for future changes in list of steps subscribe
-        //this._stepsContentChildren.changes.subscribe(changes => console.log(changes));
     }
 
     //// Template helpers
