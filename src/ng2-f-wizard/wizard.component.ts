@@ -15,12 +15,18 @@ import { WizardStepComponent } from './wizard-step.component';
     template: `
     <div class="ng2-f-wizard">
     <div class="navbar navbar-static-top navbar-light bg-faded">
-      <span class="navbar-brand" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> {{title}} </span>
-      <button type="button"
-              class="btn close float-xs-right"
-              (click)="emitOnClose()">
-        <i class="fa fa-close"></i>
-      </button>
+      <div class="row">
+        <!-- close button -->
+        <button type="button" class="btn close float-xs-right" (click)="emitOnClose()">
+          <i class="fa fa-close"></i>
+        </button>
+        <!-- title -->
+        <span class="navbar-brand col-xs-10 col-md-3" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> {{title}} </span>
+        <!-- additional content -->
+        <div class="navbar-text col-xs-12 col-md-8" style="padding-left: 0;">
+          <ng-content select=".ng2-f-wizard-navbar-content"></ng-content>
+        </div>
+      </div>
     </div>
 
     <div class="container-fluid">
