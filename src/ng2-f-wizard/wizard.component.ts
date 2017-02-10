@@ -56,6 +56,9 @@ import { WizardStepComponent } from './wizard-step.component';
         <div class="container col-xs-12"
             [class.col-md-9]="stepListVisible">
 
+          <!-- place for alets -->
+          <ng-content select=".ng2-f-wizard-alerts"></ng-content>
+
           <!-- step content -->
           <ng-content></ng-content>
 
