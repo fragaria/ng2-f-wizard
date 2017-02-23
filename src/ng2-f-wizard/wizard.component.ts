@@ -14,16 +14,16 @@ import { WizardStepComponent } from './wizard-step.component';
     selector: 'ng2-f-wizard',
     template: `
     <div class="ng2-f-wizard">
-    <div class="navbar navbar-static-top navbar-light bg-faded">
+    <div class="ng2-f-wizard-navbar navbar navbar-static-top navbar-light bg-faded">
       <div class="row">
         <!-- close button -->
-        <button type="button" class="btn close float-xs-right" (click)="emitOnClose()">
-          <i class="fa fa-close"></i>
+        <button type="button" class="ng2-f-wizard-close-button btn close float-xs-right" (click)="emitOnClose()">
+          <i class="fa fa-times-circle"></i>
         </button>
         <!-- title -->
         <span class="navbar-brand col-xs-10 col-md-3" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> {{title}} </span>
         <!-- additional content -->
-        <div class="navbar-text col-xs-12 col-md-8" style="padding-left: 0;">
+        <div class="navbar-text col-xs-12 col-md-8" style="padding-left: 0; padding-top: 2px; padding-bottom: 2px;">
           <ng-content select=".ng2-f-wizard-navbar-content"></ng-content>
         </div>
       </div>
@@ -34,7 +34,7 @@ import { WizardStepComponent } from './wizard-step.component';
       <div class="row">
 
         <!-- left sidebar -->
-        <div *ngIf="stepListVisible" class="col-sm-12 col-md-3">
+        <div *ngIf="stepListVisible" class="col-xs-12 col-md-4">
 
           <!-- step list -->
           <ul class="ng2-f-wizard-step-list row">
@@ -44,7 +44,7 @@ import { WizardStepComponent } from './wizard-step.component';
                   [class.ng2-f-wizard-active]="isActive(i)"
                   [class.ng2-f-wizard-clickable]="isClickable(i)"
                   (click)="isClickable(i) && emitOnStepList(i)">
-                <span class="ng2-f-wizard-circle">{{reindex(i)}}</span> &nbsp; {{step.name}}
+                <span class="ng2-f-wizard-circle rounded-circle">{{reindex(i)}}</span> &nbsp; {{step.name}} &nbsp;
                 <i *ngIf="isClickable(i)" class="fa fa-check fa-lg fa-green"></i>
               </li>
             </ng-container>
@@ -53,8 +53,8 @@ import { WizardStepComponent } from './wizard-step.component';
         </div><!-- /left sidebar -->
 
         <!-- content -->
-        <div class="container col-xs-12"
-            [class.col-md-9]="stepListVisible">
+        <div class="ng2-f-wizard-step-container col-xs-12"
+            [class.col-md-8]="stepListVisible">
 
           <!-- place for alets -->
           <ng-content select=".ng2-f-wizard-alerts"></ng-content>
@@ -75,15 +75,15 @@ import { WizardStepComponent } from './wizard-step.component';
             -->
             <button *ngIf="!isFinalStep"
                     type="button"
-                    class="btn btn-secondary col-xs-12 col-md-3 offset-md-8"
+                    class="btn ng2-f-wizard-button ng2-f-wizard-next-step-button col-xs-12 col-md-3 offset-md-8"
                     (click)="emitOnNext()">
-              Další
+              {{nextButtonLabel}}
             </button>
             <button *ngIf="isFinalStep"
                     type="button"
-                    class="btn btn-secondary col-xs-12 col-md-3 offset-md-8"
+                    class="btn ng2-f-wizard-button ng2-f-wizard-finish-button col-xs-12 col-md-3 offset-md-8"
                     (click)="emitOnFinish()">
-              Odeslat
+              {{finishButtonLabel}}
             </button>
           </div><!-- /footer -->
         </div><!-- /content -->
@@ -96,6 +96,8 @@ export class WizardComponent {
     @Input('initStep') index: number = 0;
     @Input() startAt: number = 1;
     @Input() title: string = "KB Online";
+    @Input() nextButtonLabel: string = "POKRAČOVAT";
+    @Input() finishButtonLabel: string = "POKRAČOVAT";
 
     @Output() onStepList: EventEmitter<number> = new EventEmitter();
     @Output() onNext: EventEmitter<number> = new EventEmitter();

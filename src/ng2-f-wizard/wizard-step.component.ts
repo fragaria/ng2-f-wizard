@@ -9,7 +9,6 @@ import {
     selector: 'ng2-f-wizard-step',
     template: `
     <div [style.display]="visible ? 'block' : 'none'">
-      <h4 *ngIf="name">{{name}}</h4>
       <ng-content></ng-content>
     </div>
   `,
