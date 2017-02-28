@@ -1,6 +1,6 @@
 {
   "name": "ng2-f-wizard",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A wizard component for FAST forms.",
   "license": "",
   "main": "dist/index.js",

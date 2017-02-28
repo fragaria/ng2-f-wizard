@@ -29,12 +29,12 @@ import { WizardStepComponent } from './wizard-step.component';
       </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="ng2-f-wizard-content container-fluid">
 
       <div class="row">
 
         <!-- left sidebar -->
-        <div *ngIf="stepListVisible" class="col-xs-12 col-md-4">
+        <div *ngIf="stepListVisible" class="col-xs-12 col-md-3">
 
           <!-- step list -->
           <ul class="ng2-f-wizard-step-list row">
@@ -54,7 +54,7 @@ import { WizardStepComponent } from './wizard-step.component';
 
         <!-- content -->
         <div class="ng2-f-wizard-step-container col-xs-12"
-            [class.col-md-8]="stepListVisible">
+            [class.col-md-9]="stepListVisible">
 
           <!-- place for alets -->
           <ng-content select=".ng2-f-wizard-alerts"></ng-content>

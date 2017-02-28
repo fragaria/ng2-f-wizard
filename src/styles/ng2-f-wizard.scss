@@ -2,6 +2,8 @@
 
 //$green: #4EB04E;
 $green: #3BB053;
+$light-grey: #CFCFCF;
+$dark-grey: #959595;
 
 .ng2-f-wizard {
   width: 100%;
@@ -33,24 +35,25 @@ $green: #3BB053;
   }
 }
 
+.ng2-f-wizard-content {
+  padding: 45px;
+}
+
 .ng2-f-wizard-step-container {
-  margin-top: 45px;
+  padding: 0;
 }
 
 .ng2-f-wizard-step-list {
   padding: 0;
   list-style: none;
-  color: #666;
-  width: 80%;
-  margin: 0 auto;
-  margin-top: 45px;
+  color: $dark-grey;
 
   .ng2-f-wizard-circle {
-    width: 1.8em;
-    height: 1.8em;
+    width: 27px;
+    height: 27px;
     text-align: center;
     vertical-align: middle;
-    border: 1px solid #666;
+    border: 1px solid $dark-grey;
     display: inline-block;
     background: white;
   }
@@ -58,8 +61,21 @@ $green: #3BB053;
   .ng2-f-wizard-step-list-item {
     margin: 0;
     padding: 10px;
-    color: #666;
+    color: $dark-grey;
     cursor: default;
+  }
+  .ng2-f-wizard-step-list-item:not(:last-child)::after {
+    content: " ";
+    position: absolute;
+    height: 80%;
+    width: 0px;
+    left: 23px;
+    top: 37px;
+    border-left: 3px dotted $light-grey;
+  }
+
+  .ng2-f-wizard-step-list-item.ng2-f-wizard-clickable:not(:last-child)::after {
+    border-left: 1px solid $green;
   }
 
   .ng2-f-wizard-step-list-item.ng2-f-wizard-active {
