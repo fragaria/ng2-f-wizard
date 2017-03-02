@@ -166,7 +166,7 @@ export class WizardComponent {
     }
 
     private get isFinalStep(): boolean {
-        return this.index === this.steps.length - 1;
+        return this.index >= this.steps.filter(step => !step.unlisted).length - 1;
     }
 
     private get isFirstStep(): boolean {
