@@ -195,7 +195,7 @@ export class WizardComponent {
     /** Go to next step. This method should be called when current step's data
      *  are validated (and valid) and communication with BE is finished. */
     public nextStep(): void {
-        if (this.isFinalStep) return;
+        if (this.index >= this.steps.length - 1) return;
         // console.log(`Wizard going to next step ${this.index + 1}.`);
         this.setStep(this.index + 1);
     }
