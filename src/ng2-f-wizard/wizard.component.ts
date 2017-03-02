@@ -118,15 +118,15 @@ export class WizardComponent {
     constructor() { }
 
     ngAfterContentInit() {
-        console.log(`Wizard has ${this.steps.length} steps.`);
-        console.log(`Wizard's first step is ${this.steps[0].name}`);
-        console.log(`Wizard starting at index ${this.index} shown as ${this.reindex(this.index)}`);
+        // console.log(`Wizard has ${this.steps.length} steps.`);
+        // console.log(`Wizard's first step is ${this.steps[0].name}`);
+        // console.log(`Wizard starting at index ${this.index} shown as ${this.reindex(this.index)}`);
 
         this.setStep(this.index);
 
         // NOTE for future changes in list of steps subscribe
         this._stepsContentChildren.changes.subscribe(changes => {
-            console.log("Wizard noticed changes in steps: ", changes);
+            // console.log("Wizard noticed changes in steps: ", changes);
             delete this._steps;
         });
     }
@@ -189,14 +189,14 @@ export class WizardComponent {
         this.currentStep = this.steps[index];
         this.steps.forEach(s => s.hide());
         this.currentStep.show();
-        console.log(`Wizard changed to step ${this.index}.`);
+        // console.log(`Wizard changed to step ${this.index}.`);
     }
 
     /** Go to next step. This method should be called when current step's data
      *  are validated (and valid) and communication with BE is finished. */
     public nextStep(): void {
         if (this.isFinalStep) return;
-        console.log(`Wizard going to next step ${this.index + 1}.`);
+        // console.log(`Wizard going to next step ${this.index + 1}.`);
         this.setStep(this.index + 1);
     }
 
@@ -208,29 +208,29 @@ export class WizardComponent {
 
     /** Currently just goes to the last (usually Thank you) step. */
     public finishWizard(): void {
-        console.log("Wizard going to finis (just next step for now).");
+        // console.log("Wizard going to finis (just next step for now).");
         this.nextStep();
     }
 
     //// Events emittors
 
     private emitOnNext(): void {
-        console.log("Wizard emitting 'OnNext' event.");
+        // console.log("Wizard emitting 'OnNext' event.");
         this.onNext.emit(null);
     }
 
     private emitOnStepList(id: number): void {
-        console.log("Wizard emitting 'OnStepList' event.");
+        // console.log("Wizard emitting 'OnStepList' event.");
         this.onStepList.emit(id);
     }
 
     private emitOnFinish(): void {
-        console.log("Wizard emitting 'OnFinish' event.");
+        // console.log("Wizard emitting 'OnFinish' event.");
         this.onFinish.emit(null);
     }
 
     private emitOnClose(): void {
-        console.log("Wizard emitting 'OnClose' event.");
+        // console.log("Wizard emitting 'OnClose' event.");
         this.onClose.emit(null);
     }
 
