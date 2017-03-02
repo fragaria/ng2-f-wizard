@@ -17,11 +17,19 @@ import { WizardStepComponent } from './wizard-step.component';
     <div class="ng2-f-wizard-navbar navbar navbar-static-top navbar-light bg-faded">
       <div class="row">
         <!-- close button -->
-        <button type="button" class="ng2-f-wizard-close-button btn close float-xs-right" (click)="emitOnClose()">
-          <i class="fa fa-times-circle"></i>
-        </button>
+        <div class="btn close float-xs-right" (click)="emitOnClose()">
+          <ng-content select=".ng2-f-wizard-close-button"> </ng-content>
+          <!-- <button type="button" class="ng2-f-wizard-close-button btn close float-xs-right"
+            <i class="fa fa-times-circle"></i>
+          </button> -->
+        </div>
+
         <!-- title -->
-        <span class="navbar-brand col-xs-10 col-md-3" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> {{title}} </span>
+        <span class="navbar-brand col-xs-10 col-md-3" href="#">
+          <ng-content select=".ng2-f-wizard-navbar-brand-icon"> </ng-content> {{title}}
+          <!-- <i class="fa fa-shopping-cart" aria-hidden="true"></i> {{title}} </span> -->
+        </span>
+
         <!-- additional content -->
         <div class="navbar-text col-xs-12 col-md-8" style="padding-left: 0; padding-top: 2px; padding-bottom: 2px;">
           <ng-content select=".ng2-f-wizard-navbar-content"></ng-content>
@@ -45,7 +53,8 @@ import { WizardStepComponent } from './wizard-step.component';
                   [class.ng2-f-wizard-clickable]="isClickable(i)"
                   (click)="isClickable(i) && emitOnStepList(i)">
                 <span class="ng2-f-wizard-circle rounded-circle">{{reindex(i)}}</span> &nbsp; {{step.name}} &nbsp;
-                <i *ngIf="isClickable(i)" class="fa fa-check fa-lg fa-green"></i>
+                <i *ngIf="isClickable(i)" class="fa fa-check fa-lg"></i>
+                <ng-content *ngIf="isClickable(i)" select=".ng2-f-wizard-navbar-content"></ng-content>
               </li>
             </ng-container>
           </ul>
@@ -97,7 +106,7 @@ export class WizardComponent {
     @Input() startAt: number = 1;
     @Input() title: string = "KB Online";
     @Input() nextButtonLabel: string = "POKRAČOVAT";
-    @Input() finishButtonLabel: string = "POKRAČOVAT";
+    @Input() finishButtonLabel: string = "ODESLAT";
 
     @Output() onStepList: EventEmitter<number> = new EventEmitter();
     @Output() onNext: EventEmitter<number> = new EventEmitter();
