@@ -85,6 +85,7 @@ import { WizardStepComponent } from './wizard-step.component';
             <button *ngIf="!isFinalStep"
                     type="button"
                     class="btn ng2-f-wizard-button ng2-f-wizard-next-step-button col-xs-12 col-md-3 offset-md-8"
+                    [disabled]="nextStepDisabled"
                     (click)="emitOnNext()">
               {{nextButtonLabel}}
             </button>
@@ -105,6 +106,7 @@ export class WizardComponent {
     @Input('initStep') index: number = 0;
     @Input() startAt: number = 1;
     @Input() title: string = "KB Online";
+    @Input() nextStepDisabled: boolean = false;
     @Input() nextButtonLabel: string = "POKRAČOVAT";
     @Input() finishButtonLabel: string = "ODESLAT";
 
