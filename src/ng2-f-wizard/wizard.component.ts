@@ -3,7 +3,6 @@ import {
     Input,
     Output,
     EventEmitter,
-    ContentChild,
     ContentChildren,
     QueryList
 } from '@angular/core';
@@ -184,6 +183,11 @@ export class WizardComponent {
     }
 
     //// Public API
+
+    public get invalid(): boolean {
+      if (!this.currentStep) return false;
+      return this.currentStep.invalid;
+    }
 
     public setStep(index: number): void {
         this.index = index;
