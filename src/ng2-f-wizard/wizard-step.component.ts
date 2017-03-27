@@ -2,8 +2,7 @@ import {
     Component,
     Input,
     ElementRef,
-    ChangeDetectorRef,
-    ContentChild
+    ChangeDetectorRef
 } from '@angular/core';
 
 import { NgModelGroup } from '@angular/forms';
@@ -18,23 +17,24 @@ import { NgModelGroup } from '@angular/forms';
 })
 export class WizardStepComponent {
     @Input() name: string = '';
-    //@Input() modelGroup:NgModelGroup;
 
-    @ContentChild(NgModelGroup) modelGroup;
+    // Step validation
+
+    private _invalid: boolean;
+
+    @Input() public set invalid(value: boolean) {
+        this._invalid = value;
+    }
+
+    public get invalid(): boolean {
+        return this._invalid;
+    }
+
 
     private visible: boolean = false;
 
     constructor(private elementRef: ElementRef,
         private _changeDetectionRef: ChangeDetectorRef) { }
-
-    public get invalid(): boolean {
-      if (!this.modelGroup) return false;
-      let status = this.modelGroup.valid ? 'valid' :
-                   this.modelGroup.invalid ? 'invalid' :
-                   this.modelGroup.pending ? 'pending' : 'in unknown state';
-      console.log(`This step is ${status}`, this, this.modelGroup);
-      return !this.modelGroup.valid;
-    }
 
     /** Hide this Step from Step List if `unlisted` attribute is present*/
     public get unlisted(): boolean {
